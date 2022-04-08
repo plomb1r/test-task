@@ -28,7 +28,7 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(value = "application")
 @EnableTransactionManagement
-@PropertySource(value = "classpath:db.properties")
+@PropertySource(value = "classpath:application.properties")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
 
@@ -45,7 +45,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/pages/");
+        templateResolver.setPrefix("/UI/html/");
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("UTF-8");
 
@@ -80,10 +80,10 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(env.getRequiredProperty("db.driver"));
-        dataSource.setUrl(env.getRequiredProperty("db.url"));
-        dataSource.setUsername(env.getRequiredProperty("db.username"));
-        dataSource.setPassword(env.getRequiredProperty("db.password"));
+        dataSource.setDriverClassName(env.getRequiredProperty("spring.datasource.driverClassName"));
+        dataSource.setUrl(env.getRequiredProperty("spring.datasource.url"));
+        dataSource.setUsername(env.getRequiredProperty("spring.datasource.username"));
+        dataSource.setPassword(env.getRequiredProperty("spring.datasource.password"));
         dataSource.setValidationQuery("SELECT 1");
         return dataSource;
     }
@@ -117,7 +117,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/res/**").addResourceLocations("/res/");
+        registry.addResourceHandler("/UI/**").addResourceLocations("/UI/");
     }
 }
 
